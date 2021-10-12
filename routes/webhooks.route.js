@@ -38,7 +38,7 @@ router.post('/', async (req, res) => {
     }
     //getting user details from IGSID (instagram senderId)
     const { data } = await axios(
-      `https://graph.facebook.com/v12.0/${senderIGSID}?fields=name,profile_pic,follower_count&access_token=${EAAIEDxV2qx4BACnBbwmIXZBpGJuxW9POeq3m497HZBRD8ZB970Jg9Q1CuIwLqMUvZCFaJ5rgZAMcP1bn17W8NUY0bm152cQWjpgSPXqYZAZAiU7V4vLuv3XvN5ZBBTwH34xpFyQCMujAD25mYY1HkzduzId2HRqCEZCJHhfnAWpymtZC3HZCdf014SnzBPCZCIOL29YtUidndGZAjIQZDZD}`
+      `https://graph.facebook.com/v12.0/${senderIGSID}?fields=name,profile_pic,follower_count&access_token=EAAIEDxV2qx4BACnBbwmIXZBpGJuxW9POeq3m497HZBRD8ZB970Jg9Q1CuIwLqMUvZCFaJ5rgZAMcP1bn17W8NUY0bm152cQWjpgSPXqYZAZAiU7V4vLuv3XvN5ZBBTwH34xpFyQCMujAD25mYY1HkzduzId2HRqCEZCJHhfnAWpymtZC3HZCdf014SnzBPCZCIOL29YtUidndGZAjIQZDZD`
     );
     console.log(data);
     //sending the message data through socket connection
