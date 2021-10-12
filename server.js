@@ -24,28 +24,20 @@ app.use('/webhooks', instaWebHooks);
 const server = http.createServer(app);
 
 //socket.io integration
+
 const io = socketIO(server);
 
-let interval;
+
 
 io.on('connection', (socket) => {
   console.log('New client connected');
-  if (interval) {
-    clearInterval(interval);
-  }
-  interval = setInterval(() => getApiAndEmit(socket), 1000);
-  socket.on('disconnect', () => {
-    console.log('Client disconnected');
-    clearInterval(interval);
-  });
+  socket.emit('connection', null);
 });
-
-const getApiAndEmit = (socket) => {
-  const response = new Date();
-  // Emitting a new message. Will be consumed by the client
-  socket.emit('FromAPI', response);
-};
 
 const PORT = process.env.PORT || 5000;
 
 server.listen(PORT, console.log(`Server is running on port ${PORT}`));
+
+module.exports.getIO = function(){
+    return io;
+}

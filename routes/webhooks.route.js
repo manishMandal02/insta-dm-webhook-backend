@@ -1,6 +1,10 @@
 const express = require('express');
 
+const test = require('../server');
+
 const router = express.Router();
+
+const server = require('../server');
 
 router.get('/', (req, res) => {
   const response = req.query['hub.challenge'];
@@ -23,6 +27,8 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
   console.log(req.body);
   res.status(200);
+  let io = server.getIO();
+  io.emit('test', req.body);
   res.json({ status: 'success' });
 });
 
