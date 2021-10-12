@@ -40,7 +40,7 @@ router.post('/', async (req, res) => {
     const { data } = await axios(
       `https://graph.facebook.com/v12.0/${senderIGSID}?fields=name,profile_pic,follower_count&access_token=EAAIEDxV2qx4BACnBbwmIXZBpGJuxW9POeq3m497HZBRD8ZB970Jg9Q1CuIwLqMUvZCFaJ5rgZAMcP1bn17W8NUY0bm152cQWjpgSPXqYZAZAiU7V4vLuv3XvN5ZBBTwH34xpFyQCMujAD25mYY1HkzduzId2HRqCEZCJHhfnAWpymtZC3HZCdf014SnzBPCZCIOL29YtUidndGZAjIQZDZD`
     );
-    console.log(data);
+    console.log('sender details received: ', data);
     //sending the message data through socket connection
     const socketResponse = {
       message: text,
@@ -52,7 +52,7 @@ router.post('/', async (req, res) => {
     res.status(200);
     res.json({ status: 'success' });
   } catch (error) {
-    console.log(error);
+    console.log(error.response && error.response.data.message ? error.response.data.message : error.message);
     res.status(400);
     res.json({ status: 'failure' });
   }
