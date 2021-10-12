@@ -36,15 +36,11 @@ router.post('/', async (req, res) => {
     if (!text || !senderIGSID) {
       throw new Error('Something went wrong');
     }
-    //getting user details from IGSID (instagram senderId)
-    const { data } = await axios(
-      `https://graph.facebook.com/v12.0/${senderIGSID}?fields=name,profile_pic,follower_count&access_token=EAAIEDxV2qx4BACnBbwmIXZBpGJuxW9POeq3m497HZBRD8ZB970Jg9Q1CuIwLqMUvZCFaJ5rgZAMcP1bn17W8NUY0bm152cQWjpgSPXqYZAZAiU7V4vLuv3XvN5ZBBTwH34xpFyQCMujAD25mYY1HkzduzId2HRqCEZCJHhfnAWpymtZC3HZCdf014SnzBPCZCIOL29YtUidndGZAjIQZDZD`
-    );
-    console.log('sender details received: ', data);
+
     //sending the message data through socket connection
     const socketResponse = {
       message: text,
-      sender: data,
+      senderId: senderIGSID,
       date: new Date(timestamp).toLocaleDateString(),
       time: new Date(timestamp).toLocaleTimeString(),
     };
