@@ -3,11 +3,11 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/', (req, res) => {
-  //   const response = req.query.hub.challenge;
+  const response = req.query['hub.challenge'];
   console.log(req.query);
   try {
     //
-    if (req.query?.hub?.verify_token === 'instadmtesttoken') {
+    if (req.query['hub.verify_token'] === 'instadmtesttoken') {
       res.status(200);
       res.send(response);
     } else {
