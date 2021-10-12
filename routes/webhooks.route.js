@@ -18,7 +18,7 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-  clg(req.body);
+  console.log(req.body);
   res.status(200);
   res.json({ status: 'success' });
 });
