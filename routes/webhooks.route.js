@@ -1,3 +1,4 @@
+const { default: axios } = require('axios');
 const express = require('express');
 
 const test = require('../server');
@@ -24,12 +25,36 @@ router.get('/', (req, res) => {
   }
 });
 
-router.post('/', (req, res) => {
-  console.log(req.body);
-  res.status(200);
+router.post('/', async (req, res) => {
+    //getting socket.io instance
   let io = server.getIO();
-  io.emit('test', req.body);
-  res.json({ status: 'success' });
+//retreving data from the webhook response
+  const text = req.body.entry[0].messaging[0].message.text || '';
+  const senderIGSID = req.body.entry[0].messaging[0].sender.id || '';
+  const timestamp = req.body.entry[0].time || '';
+  try {
+    if (!text || !senderIGSID) {
+      throw new Error('Something went wrong');
+    }
+    //getting user details from IGSID (instagram senderId)
+    const { data } = await axios(
+      `https://graph.facebook.com/v12.0/${senderIGSID}?fields=name,profile_pic,follower_count&access_token=${EAAIEDxV2qx4BACnBbwmIXZBpGJuxW9POeq3m497HZBRD8ZB970Jg9Q1CuIwLqMUvZCFaJ5rgZAMcP1bn17W8NUY0bm152cQWjpgSPXqYZAZAiU7V4vLuv3XvN5ZBBTwH34xpFyQCMujAD25mYY1HkzduzId2HRqCEZCJHhfnAWpymtZC3HZCdf014SnzBPCZCIOL29YtUidndGZAjIQZDZD}`
+    );
+    console.log(data);
+    //sending the message data through socket connection
+    const socketResponse = {
+      message: text,
+      sender: data,
+      date: new Date(timestamp).toLocaleDateString(),
+      time: new Date(timestamp).toLocaleTimeString(),
+    };
+    io.emit('message_received', socketResponse);
+    res.status(200);
+    res.json({ status: 'success' });
+  } catch (error) {
+    res.status(400);
+    res.json({ status: 'failure' });
+  }
 });
 
 module.exports = router;
