@@ -26,9 +26,9 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-    //getting socket.io instance
+  //getting socket.io instance
   let io = server.getIO();
-//retreving data from the webhook response
+  //retreving data from the webhook response
   const text = req.body.entry[0].messaging[0].message.text || '';
   const senderIGSID = req.body.entry[0].messaging[0].sender.id || '';
   const timestamp = req.body.entry[0].time || '';
@@ -52,6 +52,7 @@ router.post('/', async (req, res) => {
     res.status(200);
     res.json({ status: 'success' });
   } catch (error) {
+    console.log(error);
     res.status(400);
     res.json({ status: 'failure' });
   }
