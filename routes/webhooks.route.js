@@ -7,9 +7,12 @@ router.get('/', (req, res) => {
   console.log(req.query);
   try {
     //
-    if (req.query.hub.verify_token === 'instadmtesttoken') {
+    if (req.query?.hub?.verify_token === 'instadmtesttoken') {
       res.status(200);
       res.send(response);
+    } else {
+      res.status(401);
+      res.json({ staus: 'token_not_verified' });
     }
   } catch (error) {
     res.status(400);
