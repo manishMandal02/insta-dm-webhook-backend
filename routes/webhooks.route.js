@@ -42,7 +42,7 @@ router.post('/', async (req, res) => {
       message: text,
       senderId: senderIGSID,
       date: new Date(timestamp).toLocaleDateString(),
-      time: new Date(timestamp).toLocaleTimeString(),
+      timestamp,
     };
     io.emit('message_received', socketResponse);
     res.status(200);
